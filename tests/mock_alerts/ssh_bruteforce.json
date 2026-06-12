@@ -1,0 +1,16 @@
+{
+  "id": "SA-AccessAnomaly-1234",
+  "alert_type": "authentication_failure",
+  "severity": "high",
+  "source_ip": "45.33.32.156",
+  "dest_ip": "10.0.1.42",
+  "event_count": 138,
+  "time_window_seconds": 240,
+  "raw_logs": [
+    "Jun 10 14:20:01 web01 sshd[2245]: Failed password for root from 45.33.32.156 port 42318 ssh2",
+    "Jun 10 14:20:03 web01 sshd[2246]: Failed password for root from 45.33.32.156 port 42320 ssh2",
+    "Jun 10 14:20:04 web01 sshd[2247]: Failed password for admin from 45.33.32.156 port 42322 ssh2"
+  ],
+  "expected_action": "block_ip",
+  "expected_confidence_min": 0.85
+}

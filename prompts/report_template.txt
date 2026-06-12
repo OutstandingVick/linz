@@ -1,0 +1,7 @@
+Incident report fields:
+- original Splunk alert id
+- threat type and MITRE ATT&CK id
+- source and target
+- AI confidence and reasoning
+- action taken and result
+- response time metrics

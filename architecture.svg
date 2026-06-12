@@ -1,0 +1,80 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Linz Architecture</title>
+  <desc id="desc">Data flow from Splunk security data through MCP, the Linz agent loop, playbook actions, and incident reports written back to Splunk.</desc>
+  <rect width="1200" height="1200" fill="#0f172a"/>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#38bdf8"/>
+    </marker>
+    <style>
+      .box{fill:#111827;stroke:#38bdf8;stroke-width:2;rx:14}
+      .small{fill:#1f2937;stroke:#94a3b8;stroke-width:1.5;rx:10}
+      .title{fill:#e5f3ff;font:700 42px Arial,sans-serif}
+      .label{fill:#e2e8f0;font:700 28px Arial,sans-serif}
+      .text{fill:#cbd5e1;font:22px Arial,sans-serif}
+      .muted{fill:#94a3b8;font:20px Arial,sans-serif}
+      .arrow{stroke:#38bdf8;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <text x="70" y="90" class="title">Linz: Autonomous Incident Response</text>
+  <text x="70" y="128" class="muted">Splunk alerts close themselves: perceive -> reason -> execute -> prove.</text>
+
+  <rect x="70" y="190" width="300" height="160" class="box"/>
+  <text x="105" y="238" class="label">Splunk Data</text>
+  <text x="105" y="276" class="text">Security logs</text>
+  <text x="105" y="309" class="text">SIEM alerts</text>
+  <text x="105" y="342" class="text">Network events</text>
+
+  <rect x="450" y="190" width="300" height="160" class="box"/>
+  <text x="492" y="238" class="label">Splunk MCP</text>
+  <text x="492" y="276" class="text">Search alerts</text>
+  <text x="492" y="309" class="text">Fetch context</text>
+  <text x="492" y="342" class="text">Write reports</text>
+
+  <rect x="830" y="190" width="300" height="160" class="box"/>
+  <text x="870" y="238" class="label">Agent Core</text>
+  <text x="870" y="276" class="text">Async loop</text>
+  <text x="870" y="309" class="text">Dedup cache</text>
+  <text x="870" y="342" class="text">Loop telemetry</text>
+
+  <path class="arrow" d="M370 270 H440"/>
+  <path class="arrow" d="M750 270 H820"/>
+
+  <rect x="70" y="500" width="240" height="150" class="small"/>
+  <text x="112" y="552" class="label">PERCEIVE</text>
+  <text x="112" y="594" class="text">Normalize alerts</text>
+  <text x="112" y="627" class="text">Add context</text>
+
+  <rect x="350" y="500" width="240" height="150" class="small"/>
+  <text x="414" y="552" class="label">REASON</text>
+  <text x="392" y="594" class="text">Claude triage</text>
+  <text x="392" y="627" class="text">Pick action</text>
+
+  <rect x="630" y="500" width="240" height="150" class="small"/>
+  <text x="672" y="552" class="label">EXECUTE</text>
+  <text x="672" y="594" class="text">Run playbook</text>
+  <text x="672" y="627" class="text">Block, ticket, alert</text>
+
+  <rect x="910" y="500" width="220" height="150" class="small"/>
+  <text x="955" y="552" class="label">PROVE</text>
+  <text x="952" y="594" class="text">Build report</text>
+  <text x="952" y="627" class="text">Audit trail</text>
+
+  <path class="arrow" d="M310 575 H340"/>
+  <path class="arrow" d="M590 575 H620"/>
+  <path class="arrow" d="M870 575 H900"/>
+  <path class="arrow" d="M980 350 V490"/>
+
+  <rect x="210" y="780" width="780" height="170" class="box"/>
+  <text x="260" y="835" class="label">Action Layer</text>
+  <text x="260" y="878" class="text">Block IP, isolate endpoint, create Jira ticket, send Slack alert</text>
+  <text x="260" y="915" class="muted">Mocks run locally; credentials enable real Slack, Jira, and Splunk MCP writes.</text>
+
+  <path class="arrow" d="M750 650 V770"/>
+  <path class="arrow" d="M600 780 V705 H190 V660"/>
+  <path class="arrow" d="M600 950 V1045 H600"/>
+
+  <rect x="300" y="1030" width="600" height="90" class="box"/>
+  <text x="352" y="1085" class="label">Splunk Report Index: linz_reports</text>
+</svg>

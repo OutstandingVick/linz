@@ -1,0 +1,16 @@
+{
+  "id": "SA-NetScan-5678",
+  "alert_type": "network_scan",
+  "severity": "medium",
+  "source_ip": "198.51.100.23",
+  "dest_ip": "10.0.1.0/24",
+  "ports_scanned": [22, 80, 443, 3389, 8080, 8443, 3306, 5432],
+  "time_window_seconds": 12,
+  "raw_logs": [
+    "Jun 10 14:25:00 fw01 conn: SYN 198.51.100.23:54321 -> 10.0.1.42:22",
+    "Jun 10 14:25:00 fw01 conn: SYN 198.51.100.23:54322 -> 10.0.1.42:80",
+    "Jun 10 14:25:01 fw01 conn: SYN 198.51.100.23:54323 -> 10.0.1.42:3389"
+  ],
+  "expected_action": "create_ticket",
+  "expected_confidence_min": 0.6
+}
