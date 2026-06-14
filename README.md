@@ -81,6 +81,12 @@ For a dependency-light smoke check:
 PYTHONDONTWRITEBYTECODE=1 python3 demo/run_demo.py --scenario port_scan
 ```
 
+Print the latest generated incident report:
+
+```bash
+python3 demo/show_reports.py --latest
+```
+
 ## Project Structure
 
 ```text

@@ -34,8 +34,13 @@ The Splunk MCP layer is not an add-on. It is the boundary for both sides of the 
 2. Linz injects a brute-force SSH alert
 3. The agent logs `[PERCEIVE]`, `[REASON]`, `[EXECUTE]`, and `[PROVE]`
 4. Linz blocks the source IP in the demo firewall playbook
-5. The final report is written to `linz_reports`
-6. Run `python3 demo/run_demo.py --scenario port_scan` to show a different decision path: create ticket instead of block
+5. Run `python3 demo/show_reports.py --latest` to show the audit trail
+6. The final report is written to `linz_reports`
+7. Run `python3 demo/run_demo.py --scenario port_scan` to show a different decision path: create ticket instead of block
+
+## Video Voiceover Summary
+
+Security teams do not lose time because Splunk cannot detect threats. They lose time after detection, when someone still has to triage, decide, act, and document. Linz closes that loop. It reads Splunk alerts through the Splunk MCP boundary, uses AI triage to choose a response, executes the right playbook, and writes a proof report back into Splunk with the reasoning, action, MITRE mapping, and MTTR.
 
 ## Judging Criteria Mapping
 

@@ -1,44 +1,83 @@
 # Linz 3-Minute Demo Script
 
+## Recording Setup
+
+Open three things before recording:
+
+- Terminal at `/Users/macbook/Documents/Linz`
+- The GitHub repo: `https://github.com/OutstandingVick/linz`
+- `architecture.png`
+
+Use a large terminal font. Keep the video under 3 minutes.
+
 ## 0:00-0:20 - Hook
 
-Security teams get hundreds of alerts a day. A single alert can take hours to investigate and close. Linz fixes that by turning Splunk alerts into autonomous incident response.
+**Screen:** GitHub repo or README title.
 
-## 0:20-0:45 - Trigger the Attack
+**Voiceover:** Security teams do not lose time because Splunk cannot detect threats. They lose time after detection, when someone still has to triage the alert, decide what to do, take action, and document the incident. Linz closes that loop.
+
+## 0:20-1:10 - Attack One: Block The Source
+
+**Screen:** Terminal.
 
 ```bash
 python3 demo/run_demo.py --scenario ssh_bruteforce
 ```
 
-This simulates 138 failed SSH logins from one external IP in under 4 minutes.
+**Voiceover:** I am simulating an SSH brute-force attack: 138 failed login attempts from one external IP. Linz perceives the Splunk alert, reasons over the event context, identifies SSH brute force with 91 percent confidence, executes the block IP playbook, and writes a report back to the Splunk report index.
 
-## 0:45-1:30 - Watch the Loop
-
-Show the four logs:
+**On screen, pause on:**
 
 ```text
-[PERCEIVE] New alert: SA-AccessAnomaly-1234
+[PERCEIVE] New alert
 [REASON] SSH brute force | confidence=0.91 | action=block_ip
 [EXECUTE] block_ip -> SUCCESS
 [PROVE] Report ... written to Splunk
 ```
 
-## 1:30-2:00 - Show the Proof
+## 1:10-1:45 - Proof: Show The Audit Trail
 
-Open `.linz_demo/linz_reports.jsonl` or Splunk `index=linz_reports`. Highlight the original alert, AI reasoning, action, and MTTR.
+**Screen:** Terminal.
 
-## 2:00-2:30 - Show Generalization
+```bash
+python3 demo/show_reports.py --latest
+```
+
+**Voiceover:** The important part is not just that Linz acted. It proves what happened. The report includes the original alert, the AI reasoning, MITRE ATT&CK mapping, action taken, and MTTR. That audit trail lives where SecOps teams already work: Splunk.
+
+## 1:45-2:20 - Attack Two: Different Threat, Different Action
+
+**Screen:** Terminal.
 
 ```bash
 python3 demo/run_demo.py --scenario port_scan
 ```
 
-Linz creates a ticket instead of blocking, showing it reasons about each alert individually.
+**Voiceover:** Linz is not hardcoded to block everything. Here, a port scan receives moderate confidence, so Linz creates an incident ticket instead of blocking immediately. Same loop, different decision.
 
-## 2:30-2:50 - Architecture
+**On screen, pause on:**
 
-Show `architecture.png`: Splunk MCP Server feeds the agent loop, Claude reasons, playbooks act, and reports are written back to Splunk.
+```text
+[REASON] port scan | confidence=0.72 | action=create_ticket
+[EXECUTE] create_ticket -> SUCCESS
+```
 
-## 2:50-3:00 - Close
+## 2:20-2:45 - Architecture
 
-Mean time to respond: under 60 seconds. No human intervention required. Linz, because alerts should close themselves.
+**Screen:** `architecture.png`.
+
+**Voiceover:** The architecture is intentionally simple: Splunk MCP is the data boundary, the Linz agent runs perceive, reason, execute, and prove, Claude is used for structured triage, and playbooks handle response actions like blocking, Slack alerts, Jira tickets, or endpoint isolation.
+
+## 2:45-3:00 - Close
+
+**Screen:** GitHub repo.
+
+**Voiceover:** Linz turns Splunk alerts into closed incidents with an auditable response trail. Mean time to respond drops from hours to seconds. Linz, because alerts should close themselves.
+
+## Backup One-Take Command
+
+If you need a single command for the video:
+
+```bash
+python3 demo/run_demo.py --scenario all
+```
