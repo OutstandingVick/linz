@@ -16,27 +16,32 @@ Built for the Splunk Agentic Ops Hackathon, Security track, with a bonus target 
 ## Quick Start
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Run the local end-to-end demo:
+Run the local end-to-end demo with one command:
 
 ```bash
-python demo/attack_simulator.py --scenario ssh_bruteforce
-python -m agent.orchestrator --once
+python3 demo/run_demo.py --scenario ssh_bruteforce
 ```
 
 Run all three demo scenarios:
 
 ```bash
-python demo/attack_simulator.py --scenario all
-python -m agent.orchestrator --once
+python3 demo/run_demo.py --scenario all
 ```
 
 The demo writes queue and report files to `.linz_demo/`, mirroring the Splunk data flow while your Splunk Enterprise and MCP Server setup is being configured.
+
+You can also run the pieces manually:
+
+```bash
+python3 demo/attack_simulator.py --scenario ssh_bruteforce
+python3 -m agent.orchestrator --once
+```
 
 ## Real Integrations
 
@@ -56,6 +61,26 @@ The full recording script is in [demo/demo_script.md](demo/demo_script.md). Keep
 - the report written back to the report index
 - the architecture diagram
 
+Devpost-ready submission copy is in [SUBMISSION.md](SUBMISSION.md).
+
+## Test
+
+```bash
+python3 -m pytest -q
+```
+
+If `pytest` is not installed locally yet, run:
+
+```bash
+pip install -r requirements.txt
+```
+
+For a dependency-light smoke check:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 demo/run_demo.py --scenario port_scan
+```
+
 ## Project Structure
 
 ```text
@@ -65,6 +90,7 @@ playbooks/   response actions
 prompts/     Claude triage and report prompts
 demo/        attack simulator and video script
 tests/       fixtures and unit tests
+SUBMISSION.md Devpost copy and checklist
 ```
 
 ## License

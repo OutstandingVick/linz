@@ -7,16 +7,12 @@ Security teams get hundreds of alerts a day. A single alert can take hours to in
 ## 0:20-0:45 - Trigger the Attack
 
 ```bash
-python demo/attack_simulator.py --scenario ssh_bruteforce
+python3 demo/run_demo.py --scenario ssh_bruteforce
 ```
 
 This simulates 138 failed SSH logins from one external IP in under 4 minutes.
 
 ## 0:45-1:30 - Watch the Loop
-
-```bash
-python -m agent.orchestrator --once
-```
 
 Show the four logs:
 
@@ -34,8 +30,7 @@ Open `.linz_demo/linz_reports.jsonl` or Splunk `index=linz_reports`. Highlight t
 ## 2:00-2:30 - Show Generalization
 
 ```bash
-python demo/attack_simulator.py --scenario port_scan
-python -m agent.orchestrator --once
+python3 demo/run_demo.py --scenario port_scan
 ```
 
 Linz creates a ticket instead of blocking, showing it reasons about each alert individually.
