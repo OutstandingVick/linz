@@ -17,23 +17,43 @@ class AlertTriager:
         api_key: str | None,
         model: str,
         use_mock_ai: bool,
+        splunk_ai=None,
+        require_splunk_ai: bool = False,
         prompt_path: Path = Path("prompts/triage_system.txt"),
     ):
         self.api_key = api_key
         self.model = model
         self.use_mock_ai = use_mock_ai or not api_key
+        self.splunk_ai = splunk_ai
+        self.require_splunk_ai = require_splunk_ai
         self.prompt_path = prompt_path
 
     async def triage(self, alert: dict[str, Any]) -> dict[str, Any]:
+        splunk_ai_result = await self._run_splunk_ai(alert)
         if self.use_mock_ai:
             decision = mock_triage(alert)
             decision["model"] = "deterministic_demo_triage"
+            decision["splunk_ai"] = splunk_ai_result
             return decision
         if anthropic is None:
             raise RuntimeError("anthropic is not installed. Run `pip install -r requirements.txt`.")
-        decision = self._triage_with_claude(alert)
+        enriched_alert = {**alert, "splunk_ai": splunk_ai_result}
+        decision = self._triage_with_claude(enriched_alert)
         decision["model"] = self.model
+        decision["splunk_ai"] = splunk_ai_result
         return decision
+
+    async def _run_splunk_ai(self, alert: dict[str, Any]) -> dict[str, Any]:
+        if self.splunk_ai is None:
+            if self.require_splunk_ai:
+                raise RuntimeError("Splunk AI is required but LINZ_USE_SPLUNK_AI is not enabled.")
+            return {"enabled": False, "provider": None}
+        try:
+            return await self.splunk_ai.analyze_alert(alert)
+        except Exception as exc:
+            if self.require_splunk_ai:
+                raise
+            return {"enabled": True, "provider": "splunk_ai_spl", "error": str(exc)}
 
     def _triage_with_claude(self, alert: dict[str, Any]) -> dict[str, Any]:
         client = anthropic.Anthropic(api_key=self.api_key)

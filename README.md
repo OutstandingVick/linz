@@ -48,9 +48,23 @@ python3 -m agent.orchestrator --once
 Set these values in `.env`:
 
 - `SPLUNK_MCP_URL` and `SPLUNK_TOKEN` for Splunk MCP Server reads/writes
+- `LINZ_USE_SPLUNK_AI=true` to call Splunk AI capabilities during triage
+- `LINZ_REQUIRE_SPLUNK_AI=true` for a qualifying run that fails if Splunk AI is unavailable
+- `SPLUNK_AI_SEARCH_COMMAND=anomalydetection` by default, or your Splunk MLTK/Splunk AI command
 - `ANTHROPIC_API_KEY` and `LINZ_USE_MOCK_AI=false` for Claude Sonnet triage
 - `SLACK_WEBHOOK_URL` for real Slack notifications
 - `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, and `JIRA_PROJECT_KEY` for Jira ticket creation
+
+Important: the local demo mode is for rehearsal. For a qualifying hackathon run, enable Splunk AI:
+
+```bash
+export LINZ_USE_SPLUNK_AI=true
+export LINZ_REQUIRE_SPLUNK_AI=true
+python3 demo/check_splunk_ai.py
+python3 demo/run_demo.py --scenario ssh_bruteforce
+```
+
+When enabled, Linz calls the configured Splunk AI SPL command through the Splunk MCP boundary before the final triage decision, and the incident report includes the `ai_triage.splunk_ai` result.
 
 ## Demo Script
 

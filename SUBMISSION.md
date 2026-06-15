@@ -20,6 +20,7 @@ Linz polls Splunk security alerts through a Splunk MCP client, normalizes each a
 
 - Python async orchestration for the incident loop
 - Splunk MCP client abstraction for reads and writes
+- Splunk AI runtime analysis through a configurable SPL AI command, defaulting to `anomalydetection`
 - Claude Sonnet-ready triage prompt with deterministic demo fallback
 - Pluggable response playbooks for block IP, isolate endpoint, create ticket, and Slack alert
 - Local demo backend that mirrors Splunk queues and report indexes while live credentials are being configured
@@ -27,6 +28,8 @@ Linz polls Splunk security alerts through a Splunk MCP client, normalizes each a
 ## Best Use Of Splunk MCP Server
 
 The Splunk MCP layer is not an add-on. It is the boundary for both sides of the loop: Linz reads security alerts through the MCP client and writes the final incident report back into the Splunk report index. That gives security teams an auditable record inside the same operational system where the alert began.
+
+For the qualifying runtime path, Linz also calls Splunk AI during triage. With `LINZ_USE_SPLUNK_AI=true`, the agent sends alert features into a Splunk AI SPL search such as `anomalydetection`, receives anomaly output, passes that signal into the triage decision, and stores the Splunk AI result in the final incident report.
 
 ## Demo Flow
 
@@ -38,9 +41,17 @@ The Splunk MCP layer is not an add-on. It is the boundary for both sides of the 
 6. The final report is written to `linz_reports`
 7. Run `python3 demo/run_demo.py --scenario port_scan` to show a different decision path: create ticket instead of block
 
+For the live Splunk AI demo path, set:
+
+```bash
+export LINZ_USE_SPLUNK_AI=true
+export LINZ_REQUIRE_SPLUNK_AI=true
+python3 demo/check_splunk_ai.py
+```
+
 ## Video Voiceover Summary
 
-Security teams do not lose time because Splunk cannot detect threats. They lose time after detection, when someone still has to triage, decide, act, and document. Linz closes that loop. It reads Splunk alerts through the Splunk MCP boundary, uses AI triage to choose a response, executes the right playbook, and writes a proof report back into Splunk with the reasoning, action, MITRE mapping, and MTTR.
+Security teams do not lose time because Splunk cannot detect threats. They lose time after detection, when someone still has to triage, decide, act, and document. Linz closes that loop. It reads Splunk alerts through the Splunk MCP boundary, calls Splunk AI during triage, uses the resulting signal to choose a response, executes the right playbook, and writes a proof report back into Splunk with the reasoning, action, MITRE mapping, Splunk AI output, and MTTR.
 
 ## Judging Criteria Mapping
 

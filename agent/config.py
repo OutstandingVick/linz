@@ -18,6 +18,9 @@ class Config:
     security_index: str
     report_index: str
     demo_dir: Path
+    use_splunk_ai: bool
+    require_splunk_ai: bool
+    splunk_ai_search_command: str
     anthropic_api_key: str | None
     anthropic_model: str
     use_mock_ai: bool
@@ -39,6 +42,9 @@ class Config:
             security_index=os.getenv("SPLUNK_SECURITY_INDEX", "security"),
             report_index=os.getenv("SPLUNK_REPORT_INDEX", "linz_reports"),
             demo_dir=Path(os.getenv("LINZ_DEMO_DIR", ".linz_demo")),
+            use_splunk_ai=_as_bool(os.getenv("LINZ_USE_SPLUNK_AI", "false")),
+            require_splunk_ai=_as_bool(os.getenv("LINZ_REQUIRE_SPLUNK_AI", "false")),
+            splunk_ai_search_command=os.getenv("SPLUNK_AI_SEARCH_COMMAND", "anomalydetection"),
             anthropic_api_key=_clean(os.getenv("ANTHROPIC_API_KEY")),
             anthropic_model=os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514"),
             use_mock_ai=_as_bool(os.getenv("LINZ_USE_MOCK_AI", "true")),

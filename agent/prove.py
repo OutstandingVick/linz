@@ -30,6 +30,7 @@ def build_incident_report(
             "confidence": decision["confidence"],
             "reasoning": decision["reasoning"],
             "mitre_attack_id": decision.get("mitre_attack_id"),
+            "splunk_ai": decision.get("splunk_ai", {"enabled": False}),
         },
         "action_taken": _serialize_action(result, decision),
         "metrics": {

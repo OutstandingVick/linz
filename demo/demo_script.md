@@ -10,6 +10,14 @@ Open three things before recording:
 
 Use a large terminal font. Keep the video under 3 minutes.
 
+If your Splunk credentials are ready, run this before recording to prove the qualifying Splunk AI path:
+
+```bash
+export LINZ_USE_SPLUNK_AI=true
+export LINZ_REQUIRE_SPLUNK_AI=true
+python3 demo/check_splunk_ai.py
+```
+
 ## 0:00-0:20 - Hook
 
 **Screen:** GitHub repo or README title.
@@ -24,12 +32,13 @@ Use a large terminal font. Keep the video under 3 minutes.
 python3 demo/run_demo.py --scenario ssh_bruteforce
 ```
 
-**Voiceover:** I am simulating an SSH brute-force attack: 138 failed login attempts from one external IP. Linz perceives the Splunk alert, reasons over the event context, identifies SSH brute force with 91 percent confidence, executes the block IP playbook, and writes a report back to the Splunk report index.
+**Voiceover:** I am simulating an SSH brute-force attack: 138 failed login attempts from one external IP. Linz perceives the Splunk alert, calls Splunk AI for anomaly analysis, reasons over the event context, identifies SSH brute force with 91 percent confidence, executes the block IP playbook, and writes a report back to the Splunk report index.
 
 **On screen, pause on:**
 
 ```text
 [PERCEIVE] New alert
+[SPLUNK_AI] anomalydetection | anomaly=True
 [REASON] SSH brute force | confidence=0.91 | action=block_ip
 [EXECUTE] block_ip -> SUCCESS
 [PROVE] Report ... written to Splunk

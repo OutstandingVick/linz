@@ -41,6 +41,23 @@ class SplunkMCPClient:
             payload = response.json()
             return payload.get("results", payload if isinstance(payload, list) else [])
 
+    async def run_spl_search(self, search: str) -> list[dict[str, Any]]:
+        """Run an arbitrary SPL search through the configured Splunk MCP endpoint."""
+        if not self.token:
+            raise RuntimeError("SPLUNK_TOKEN is required for live Splunk SPL searches.")
+        if httpx is None:
+            raise RuntimeError("httpx is not installed. Run `pip install -r requirements.txt`.")
+
+        async with httpx.AsyncClient(timeout=45) as client:
+            response = await client.post(
+                f"{self.base_url}/search",
+                headers={"Authorization": f"Bearer {self.token}"},
+                json={"query": search},
+            )
+            response.raise_for_status()
+            payload = response.json()
+            return payload.get("results", payload if isinstance(payload, list) else [])
+
     async def write_event(self, index: str, event: dict[str, Any]) -> None:
         if not self.token:
             with self.report_log.open("a", encoding="utf-8") as handle:
