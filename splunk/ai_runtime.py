@@ -23,7 +23,7 @@ class SplunkAIRuntime:
         results = await self.client.run_spl_search(search)
         top = results[0] if results else {}
         return {
-            "enabled": True,
+            "enabled": True, 
             "provider": "splunk_ai_spl",
             "command": self.command,
             "search": search,
